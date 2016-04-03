@@ -10,8 +10,7 @@
 
 @interface Person : NSObject
 @property(nonatomic ,assign)NSInteger userid;
-
-@property(nonatomic ,assign)NSInteger name;
-
 @property(nonatomic ,copy)NSString *age;
+@property(nonatomic ,copy)NSString  * name;
+
 @end

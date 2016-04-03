@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
+typedef NS_ENUM(NSUInteger , orderType){
+    orderTypeReverse = 1,
+};
 @interface NHDataBaseManager : NSObject
 
 
@@ -18,7 +20,7 @@
 /**
  *  创建表（表明是model的类名）
  */
-- (void)creatTable:(id)model;
+- (void)creatTable:(Class )modelClass primaryKey:(NSString *)primaryKey, ...;
 /**
  *  增加或更新 数据库数据
  *  1.如果没有创表，自动创表（表明是model的类名）
@@ -29,23 +31,17 @@
 /**
  *  数据库删除元素
  */
--(void)deleteModelInDatabase:(id)model;
+-(BOOL)deleteModelInDatabase:(Class)model;
 /**
- *  查询所有数据
- *  因为这里根据运行时 取出model的属性 表明  所以这里要传入model  model属性没值也没关系  只是做映射关联的
+ *  查询一张表的所有数据
+ *  因为创建表的时候是根据类名创建的
  */
-- (NSArray *)selectModelArrayInDatabase:(id)model;
+- (NSArray *)selectAllModelInDatabase:(Class)modelClass;
 /**
  *  根据约束索引查询数据
  *  @param model  因为这里根据运行时 所以要先传入相关的model
- *  @param ID    这个ID是数据库中保证唯一性的东西 ，上面说了 默认是把model的第一个属性当做约束条件
- *
+ *  @param format 这个ID是数据库中保证唯一性的东西 ，上面说了 默认是把model的第一个属性当做约束条件
  *  @return 返回想要的数据
- */
-- (id)selectModelInDatabase:(id)model by:(id)ID;
-/**
- *  查询所有数据
- *  因为这里根据运行时 取出model的属性 表明  所以这里要传入model  model属性没值也没关系  只是做映射关联的
  */
 - (NSArray *)selectModelArrayInDatabase:(id)model byKey:(NSString *)format, ...;
 

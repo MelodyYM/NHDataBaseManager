@@ -15,6 +15,7 @@
 		8E715B301CB11CD300352E74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E715B2E1CB11CD300352E74 /* LaunchScreen.storyboard */; };
 		8E715B391CB11E5F00352E74 /* NHDataBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E715B381CB11E5F00352E74 /* NHDataBaseManager.m */; };
 		8E715B3F1CB122E600352E74 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E715B3E1CB122E600352E74 /* Person.m */; };
+		8E715B421CB173ED00352E74 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E715B411CB173ED00352E74 /* Message.m */; };
 		F44B1A866EBEC54E7F2D22EC /* libPods-NHFMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C9FCD3816B7DED953D9EB3 /* libPods-NHFMDB.a */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,8 @@
 		8E715B381CB11E5F00352E74 /* NHDataBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NHDataBaseManager.m; sourceTree = "<group>"; };
 		8E715B3D1CB122E600352E74 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		8E715B3E1CB122E600352E74 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		8E715B401CB173ED00352E74 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		8E715B411CB173ED00352E74 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		A33D96EA129F180972A77A3C /* Pods-NHFMDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NHFMDB.release.xcconfig"; path = "Pods/Target Support Files/Pods-NHFMDB/Pods-NHFMDB.release.xcconfig"; sourceTree = "<group>"; };
 		B7C9FCD3816B7DED953D9EB3 /* libPods-NHFMDB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NHFMDB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -94,6 +97,8 @@
 				8E715B271CB11CD300352E74 /* ViewController.m */,
 				8E715B3D1CB122E600352E74 /* Person.h */,
 				8E715B3E1CB122E600352E74 /* Person.m */,
+				8E715B401CB173ED00352E74 /* Message.h */,
+				8E715B411CB173ED00352E74 /* Message.m */,
 				8E715B371CB11E5F00352E74 /* NHDataBaseManager.h */,
 				8E715B381CB11E5F00352E74 /* NHDataBaseManager.m */,
 				8E715B291CB11CD300352E74 /* Main.storyboard */,
@@ -235,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E715B3F1CB122E600352E74 /* Person.m in Sources */,
+				8E715B421CB173ED00352E74 /* Message.m in Sources */,
 				8E715B391CB11E5F00352E74 /* NHDataBaseManager.m in Sources */,
 				8E715B281CB11CD300352E74 /* ViewController.m in Sources */,
 				8E715B251CB11CD300352E74 /* AppDelegate.m in Sources */,
