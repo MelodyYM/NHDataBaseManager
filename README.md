@@ -22,24 +22,24 @@
     //取出person的所有数据
     [[NHDataBaseManager defaultManager] selectAllModelInDatabase:[Person class]];
     //根据约束条件取出数据
-   ## //第一种情况
+    //第一种情况
     Person *son = [[Person alloc] init];
     son.userid = 9;
     //如果key不传  是根据默认约束主键查询的  默认约束是类的第一个属性  请注意
     NSArray *personArr = [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son byKey:nil];
     
-   ## //第二种情况
+    //第二种情况
     Person *son_name =[[Person alloc] init];
     son_name.name = @"小明";
     NSArray *son_name_Arr = [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son_name byKey:@"%@",@"name"];
-    ## //或者多参数
+     //或者多参数
     Person *son_more =[[Person alloc] init];
     son_more.name = @"小明";
     son_more.age  = @"岁数-0";
     NSArray *son_more_Arr = [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son_more byKey:@"%@,%@",@"name",@"age"];
 # 第二种多个约束条件保持唯一性     这个用到很少  IM数据库会用到很多，因为 要分会话ID和信息ID    2个约束来控制数据库
 ## 比如  小明和小白聊天    sessionID 是唯一的   但是messageID会从0 到 max
-小明和小红聊天    sessionID 是唯一的    messageID 也会是从 0 到 max
+##小明和小红聊天    sessionID 是唯一的    messageID 也会是从 0 到 max
 			这种情况就要用到多个约束条件了
     //如果要建立多个主键约束条件 要先创建表
     [[NHDataBaseManager defaultManager] creatTable:[Message class] primaryKey:@"%@,%@",@"messageID",@"sessionID"];
