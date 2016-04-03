@@ -1,0 +1,5 @@
+platform:ios, "8.0"
+
+target 'NHFMDB' do
+pod 'FMDB', '~> 2.3'
+end
