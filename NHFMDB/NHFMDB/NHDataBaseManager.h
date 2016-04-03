@@ -26,6 +26,7 @@ typedef NS_ENUM(NSUInteger , orderType){
  *  1.如果没有创表，自动创表（表明是model的类名）
  *  2.创表的时候，是自定根据模型类的第一个属性当约束 保持唯一性的，所以 注意模型类的属性顺序
  *  3.如果数据库存在这条数据 更新数据 
+ *  4.根据runtime 自动写sql语句  实现增加更新
  */
 - (void)insertAndUpdateModelToDatabase:(id)model;
 /**
@@ -39,8 +40,8 @@ typedef NS_ENUM(NSUInteger , orderType){
 - (NSArray *)selectAllModelInDatabase:(Class)modelClass;
 /**
  *  根据约束索引查询数据
- *  @param model  因为这里根据运行时 所以要先传入相关的model
- *  @param format 这个ID是数据库中保证唯一性的东西 ，上面说了 默认是把model的第一个属性当做约束条件
+ *  @param model  所以要先传入相关的model 如果format为nil 就是默认查询model的第一个属性
+ *  @param format 查询条件  可以根据你的约束条件查询  也可以查询别的mode调教
  *  @return 返回想要的数据
  */
 - (NSArray *)selectModelArrayInDatabase:(id)model byKey:(NSString *)format, ...;

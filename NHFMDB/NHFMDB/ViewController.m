@@ -50,11 +50,11 @@
         [[NHDataBaseManager defaultManager] insertAndUpdateModelToDatabase:message];
     }
     //取出message的所有数据
-    NSArray *all =  [[NHDataBaseManager defaultManager] selectAllModelInDatabase:[Person class]];
+    [[NHDataBaseManager defaultManager] selectAllModelInDatabase:[Person class]];
     //或者多参数
     Message *message_sessionID =[[Message alloc] init];
     message_sessionID.sessionID = 8;
-    NSArray *sessionID_Arr = [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:message_sessionID byKey:@"%@",@"sessionID"];
+    [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:message_sessionID byKey:@"%@",@"sessionID"];
     
 }
 - (void)Person
@@ -82,16 +82,16 @@
     Person *son = [[Person alloc] init];
     son.userid = 9;
     //如果key不传  是根据默认约束主键查询的  默认约束是类的第一个属性  请注意
-    NSArray *personArr = [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son byKey:nil];
+    [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son byKey:nil];
     
     //第二种情况
     Person *son_name =[[Person alloc] init];
     son_name.name = @"小明";
-    NSArray *son_name_Arr = [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son_name byKey:@"%@",@"name"];
+    [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son_name byKey:@"%@",@"name"];
     //或者多参数
     Person *son_more =[[Person alloc] init];
     son_more.name = @"小明";
     son_more.age  = @"岁数-0";
-    NSArray *son_more_Arr = [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son_more byKey:@"%@,%@",@"name",@"age"];
+    [[NHDataBaseManager defaultManager] selectModelArrayInDatabase:son_more byKey:@"%@,%@",@"name",@"age"];
 }
 @end
