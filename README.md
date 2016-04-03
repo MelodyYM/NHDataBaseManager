@@ -1,6 +1,10 @@
 # NHDataBaseManager
  ->  ios移动端的数据库用到的很多 ，但是大家对于写sql语句很烦，这个项目主要依赖于FMDB的开源框架，用oc的runtime 实现model -> sql语句的封装,
 每次用到的时候  直接拉过去 就能用 不用改东西
+后续功能：
+	1.各种排序情况 DESC
+	2.获取指定个数 limit
+	3.根据情况再定 都是sql语句  有时间就写
 # 第一种默认类的第一个属性为约束
     for (int i = 0; i < 10; i++) {
         Person *son = [[Person alloc] init];
