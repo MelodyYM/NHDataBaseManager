@@ -32,6 +32,9 @@
 
 @property (nonatomic ,strong)FMDatabase *db;
 
+@property (nonatomic ,strong)FMDatabaseQueue* dataBaseQueue;
+
+
 @end
 @implementation NHDataBaseManager
 
@@ -42,6 +45,7 @@
     @synchronized(self) {
         if (!manager) {
             manager = [[NHDataBaseManager alloc]init];
+            
         }
     }
     return manager;
@@ -58,6 +62,7 @@
 - (void)creatDatabase
 {
     self.db = [FMDatabase databaseWithPath:[self databaseFilePath]];
+    self.dataBaseQueue = [FMDatabaseQueue databaseQueueWithPath:[self databaseFilePath]];
 }
 // 获取沙盒路径
 - (NSString *)databaseFilePath
@@ -196,46 +201,71 @@
             return;
         }
     }
-    // 拼接插入语句的头部
-    // insert or replace into 如果有数据  复盖  没有就插入
-    //  @"INSERT OR REPLACE INTO %@ VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",TABLE];
-    
-    NSString *insertStrHeader = [NSString stringWithFormat:@"INSERT OR REPLACE INTO  %@ (",TABLE_NAME(model)];
-    // 拼接插入语句的中部1
-    NSString *insertStrMiddleOne = [NSString string];
-    for (int i = 0; i < MODEL_PROPERTYS_COUNT; i++) {
-        insertStrMiddleOne = [insertStrMiddleOne stringByAppendingFormat:@"%@",[MODEL_PROPERTYS objectAtIndex:i]];
-        if (i != MODEL_PROPERTYS_COUNT -1) {
-            insertStrMiddleOne = [insertStrMiddleOne stringByAppendingFormat:@","];
+    [self.dataBaseQueue inDatabase:^(FMDatabase *db) {
+        [self.db beginTransaction];
+        __block BOOL isRollBack = NO;
+        @try {
+            // 拼接插入语句的头部
+            // insert or replace into 如果有数据  复盖  没有就插入
+            //  @"INSERT OR REPLACE INTO %@ VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",TABLE];
+            
+            NSString *insertStrHeader = [NSString stringWithFormat:@"INSERT OR REPLACE INTO  %@ (",TABLE_NAME(model)];
+            // 拼接插入语句的中部1
+            NSString *insertStrMiddleOne = [NSString string];
+            for (int i = 0; i < MODEL_PROPERTYS_COUNT; i++) {
+                insertStrMiddleOne = [insertStrMiddleOne stringByAppendingFormat:@"%@",[MODEL_PROPERTYS objectAtIndex:i]];
+                if (i != MODEL_PROPERTYS_COUNT -1) {
+                    insertStrMiddleOne = [insertStrMiddleOne stringByAppendingFormat:@","];
+                }
+            }
+            // 拼接插入语句的中部2
+            NSString *insertStrMiddleTwo = [NSString stringWithFormat:@") VALUES ("];
+            // 拼接插入语句的中部3
+            NSString *insertStrMiddleThree = [NSString string];
+            for (int i = 0; i < MODEL_PROPERTYS_COUNT; i++) {
+                insertStrMiddleThree = [insertStrMiddleThree stringByAppendingFormat:@"?"];
+                if (i != MODEL_PROPERTYS_COUNT-1) {
+                    insertStrMiddleThree = [insertStrMiddleThree stringByAppendingFormat:@","];
+                }
+            }
+            // 拼接插入语句的尾部
+            NSString *insertStrTail = [NSString stringWithFormat:@")"];
+            // 整句插入语句拼接
+            NSString *insertStr = [NSString string];
+            insertStr = [insertStr stringByAppendingFormat:@"%@%@%@%@%@",insertStrHeader,insertStrMiddleOne,insertStrMiddleTwo,insertStrMiddleThree,insertStrTail];
+            NSMutableArray *modelPropertyArray = [NSMutableArray array];
+            for (int i = 0; i < MODEL_PROPERTYS_COUNT; i++) {
+                NSString *str = [model valueForKey:[MODEL_PROPERTYS objectAtIndex:i]];
+                if (str == nil) {
+                    str = @"none";
+                }
+                [modelPropertyArray addObject: str];
+            }
+            
+           BOOL  result = [self.db executeUpdate:insertStr withArgumentsInArray:modelPropertyArray];
+
+                if (!result)
+                {
+                    isRollBack = YES;
+                }
         }
-    }
-    // 拼接插入语句的中部2
-    NSString *insertStrMiddleTwo = [NSString stringWithFormat:@") VALUES ("];
-    // 拼接插入语句的中部3
-    NSString *insertStrMiddleThree = [NSString string];
-    for (int i = 0; i < MODEL_PROPERTYS_COUNT; i++) {
-        insertStrMiddleThree = [insertStrMiddleThree stringByAppendingFormat:@"?"];
-        if (i != MODEL_PROPERTYS_COUNT-1) {
-            insertStrMiddleThree = [insertStrMiddleThree stringByAppendingFormat:@","];
+        @catch (NSException *exception) {
+            [self.db rollback];
         }
-    }
-    // 拼接插入语句的尾部
-    NSString *insertStrTail = [NSString stringWithFormat:@")"];
-    // 整句插入语句拼接
-    NSString *insertStr = [NSString string];
-    insertStr = [insertStr stringByAppendingFormat:@"%@%@%@%@%@",insertStrHeader,insertStrMiddleOne,insertStrMiddleTwo,insertStrMiddleThree,insertStrTail];
-    NSMutableArray *modelPropertyArray = [NSMutableArray array];
-    for (int i = 0; i < MODEL_PROPERTYS_COUNT; i++) {
-        NSString *str = [model valueForKey:[MODEL_PROPERTYS objectAtIndex:i]];
-        if (str == nil) {
-            str = @"none";
+        @finally {
+            if (isRollBack)
+            {
+                [self.db rollback];
+                NSLog(@"insert to database failure content");
+            }
+            else
+            {
+                [self.db commit];
+            }
         }
-        [modelPropertyArray addObject: str];
-    }
-    
-    [self.db executeUpdate:insertStr withArgumentsInArray:modelPropertyArray];
+    }];
     //    关闭数据库
-    [self.db close];
+    [self.db close];    
 }
 -(BOOL)deleteModelInDatabase:(id)model
 {
