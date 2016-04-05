@@ -265,7 +265,7 @@
         }
     }];
     //    关闭数据库
-    [self.db close];    
+    [self.db close];
 }
 -(BOOL)deleteModelInDatabase:(id)model
 {
