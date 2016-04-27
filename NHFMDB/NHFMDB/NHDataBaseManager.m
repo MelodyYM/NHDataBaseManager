@@ -289,8 +289,8 @@
     // 删除操作
     // 拼接删除语句
     // delete from tableName where userId = ?
-    NSString *deletStr = [NSString stringWithFormat:@"delete from %@ where %@ = '?' ",TABLE_NAME(model),[MODEL_PROPERTYS objectAtIndex:0]];
-   BOOL isCorrect = [self.db executeUpdate:deletStr, [model valueForKey:[MODEL_PROPERTYS objectAtIndex:0]]];
+    NSString *deletStr = [NSString stringWithFormat:@"delete from %@ where %@ = '%@' ",TABLE_NAME(model),[MODEL_PROPERTYS objectAtIndex:0],[model valueForKey:[MODEL_PROPERTYS objectAtIndex:0]]];
+   BOOL isCorrect = [self.db executeUpdate:deletStr];
     // 关闭数据库
     [self.db close];
     return isCorrect;
